@@ -1,12 +1,11 @@
 import redis from '@/lib/redis';
 import { redirect } from 'next/navigation';
+import Notfound from '@/components/notfound'
 
 export default async function Page({ params }: { params: { short: string } }) {
-    const longUrl = await redis.get(params.short);
-    console.log('Short key:', params.short);
-    console.log('Long URL:', longUrl);
-    
+    const { short } = params;
+    const longUrl = await redis.get(short);
     if(longUrl) redirect(longUrl); 
     
-    return <h1>URL not found</h1>; 
+    return <Notfound/>; 
 }
